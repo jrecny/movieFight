@@ -1,27 +1,35 @@
-const fetchData = async (searchTerm) => {
-	const response = await axios.get('http://www.omdbapi.com/', {
-		params : {
-			apikey : '187db6ca',
-			s      : searchTerm
+//==============AUTOCOMPLETE IS NOW REUSEABLE====================
+createAutoComplete({
+	root           : document.querySelector('.autocomplete'),
+	renderOption (movie) {
+		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+		return `
+                <img src="${imgSrc}" />
+                ${movie.Title} (<b>${movie.Year}</b>)
+            `;
+	},
+	onOptionSelect (movie) {
+		onMovieSelect(movie);
+	},
+	inputValue (movie) {
+		s;
+		return movie.Title;
+	},
+	async fetchData (searchTerm) {
+		const response = await axios.get('http://www.omdbapi.com/', {
+			params : {
+				apikey : '187db6ca',
+				s      : searchTerm
+			}
+		});
+
+		if (response.data.Error) {
+			return [];
 		}
-	});
 
-	if (response.data.Error) {
-		return [];
+		return response.data.Search;
 	}
-
-	return response.data.Search;
-};
-createAutoComplete({
-	root : document.querySelector('.autocomplete')
 });
-createAutoComplete({
-	root : document.querySelector('.autocomplete-two')
-});
-createAutoComplete({
-	root : document.querySelector('.autocomplete-three')
-});
-//===============Autocomplete (using bulma)==========================
 
 //=======================getting data from clicked movie===================
 const onMovieSelect = async (movie) => {
