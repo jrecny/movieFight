@@ -1,7 +1,10 @@
 //========config for autocomplete
 const autoCompleteConfig = {
 	renderOption (movie) {
-		const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster;
+		const imgSrc =
+
+				movie.Poster === 'N/A' ? '' :
+				movie.Poster;
 		return `
                 <img src="${imgSrc}" />
                 ${movie.Title} (<b>${movie.Year}</b>)
